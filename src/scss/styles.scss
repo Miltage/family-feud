@@ -1,8 +1,18 @@
+@font-face {
+    font-family: 'Kanit';
+    src: url("../fonts/Kanit-Black.ttf") format("truetype");
+}
+
+@font-face {
+    font-family: 'Roboto';
+    src: url("../fonts/RobotoCondensed-Bold.ttf") format("truetype");
+}
+
 body {
     background-color: #143EA8;
     margin: 0;
     padding: 0;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
 }
 
 #wrapper {
@@ -26,7 +36,7 @@ body {
             font-size: 32px;
 
             &.score {
-                font-size: 72px;
+                font-size: 90px;
             }
         }
     }
@@ -60,6 +70,8 @@ body {
                 justify-content: center;
 
                 .number {
+                    font-family: "Kanit";
+                    font-weight: 900;
                     font-size: 54px;
                     position: relative;
                     text-align: center;
@@ -70,7 +82,8 @@ body {
                     text-shadow: rgba(0, 0, 0, 0.7) 2px 2px 4px;
                     box-shadow: inset rgba(0, 0, 0, 0.5) 0px 2px 4px, rgba(0, 0, 0, 0.7) 0px 2px 6px;
                     background-color: #1A45A8;
-                    border: 2px solid white;
+                    border: 3px solid white;
+                    line-height: 110%;
                 }
             }
         }
