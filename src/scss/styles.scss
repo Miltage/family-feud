@@ -27,6 +27,7 @@ body {
         display: grid;
         grid-template-columns: 25% 1fr 25%;
         text-shadow: rgba(0, 0, 0, 0.7) 2px 2px 8px;
+        text-transform: uppercase;
 
         div {
             display: flex;
@@ -84,6 +85,21 @@ body {
                     background-color: #1A45A8;
                     border: 3px solid white;
                     line-height: 110%;
+                    display: none;
+                }
+
+                .result {
+                    display: flex;
+                    justify-content: space-between;
+                    width: 100%;
+                    padding: 0 25px;
+                    text-transform: uppercase;
+
+                    .total {
+                        border: 3px solid white;
+                        padding: 0 10px;
+                        border-radius: 5px;
+                    }
                 }
             }
         }
