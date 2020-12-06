@@ -61,6 +61,12 @@ body {
                     #5283FF, #3C5FBA
                 );
 
+            &.hidden {
+                .inner .number, .inner .result {
+                    display: none;
+                }
+            }
+
             .inner {
                 border: 2px solid whitesmoke;
                 box-sizing: border-box;

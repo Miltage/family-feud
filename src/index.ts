@@ -1,3 +1,4 @@
+import Application from './Application';
 import './scss/styles.scss';
 
-console.log("started!");
+let app = new Application();
