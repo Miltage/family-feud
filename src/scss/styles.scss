@@ -91,11 +91,10 @@ body {
                     background-color: #1A45A8;
                     border: 3px solid white;
                     line-height: 110%;
-                    display: none;
                 }
 
                 .result {
-                    display: flex;
+                    display: none;
                     justify-content: space-between;
                     width: 100%;
                     padding: 0 25px;
