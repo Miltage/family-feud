@@ -4,6 +4,7 @@ export default class Application {
 
     private rounds:Array<Round>;
     private currentRound:Round;
+    private roundPoints:number;
 
     constructor() {
         this.rounds = [];
@@ -24,11 +25,16 @@ export default class Application {
         document.addEventListener("keyup", (event) => this.onKeyUp(event));
     }
 
+    private refresh():void {
+        document.querySelector("#header .question .points").innerHTML = this.numberToString(this.roundPoints);
+    }
+
     private loadRound(index:number):void {
         let round = this.rounds[index];
         this.currentRound = round;
+        this.roundPoints = 0;
 
-        document.querySelector("#header .question").innerHTML = round.getQuestion();
+        document.querySelector("#header .question .text").innerHTML = round.getQuestion();
 
         for (var i = 0; i < 8; i++) {
             let answer = round.getAnswer(i);
@@ -60,7 +66,14 @@ export default class Application {
     private revealAnswer(num:number):void {
         if (num > this.currentRound.getNumAnswers()) return;
 
+        this.roundPoints += this.currentRound.getAnswer(num - 1).total;
+        this.refresh();
+
         (<HTMLElement> document.querySelector(`#content .answer:nth-child(${num}) .number`)).style.display = "none";
         (<HTMLElement> document.querySelector(`#content .answer:nth-child(${num}) .result`)).style.display = "flex";
+    }
+
+    private numberToString(num:number):string {
+        return (num < 10 ? "0" : "") + num;
     }
 }
