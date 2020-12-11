@@ -1,13 +1,21 @@
 import Round from "./Round";
+import Team from "./Team";
 
 export default class Application {
 
     private rounds:Array<Round>;
     private currentRound:Round;
     private roundPoints:number;
+    private roundAwarded:boolean;
+
+    private team1:Team;
+    private team2:Team;
 
     constructor() {
         this.rounds = [];
+
+        this.team1 = new Team();
+        this.team2 = new Team();
 
         fetch('data.json')
         .then(res => res.json())
@@ -27,12 +35,15 @@ export default class Application {
 
     private refresh():void {
         document.querySelector("#header .question .points").innerHTML = this.numberToString(this.roundPoints);
+        document.getElementById("team1").innerText = this.numberToString(this.team1.getScore());
+        document.getElementById("team2").innerText = this.numberToString(this.team2.getScore());
     }
 
     private loadRound(index:number):void {
         let round = this.rounds[index];
         this.currentRound = round;
         this.roundPoints = 0;
+        this.roundAwarded = false;
 
         document.querySelector("#header .question .text").innerHTML = round.getQuestion();
 
@@ -61,13 +72,24 @@ export default class Application {
         else if (event.code === "Digit6") this.revealAnswer(6);
         else if (event.code === "Digit7") this.revealAnswer(7);
         else if (event.code === "Digit8") this.revealAnswer(8);
+
+        if (event.code === "KeyO") this.awardRound(this.team1);
+        else if (event.code === "KeyP") this.awardRound(this.team2);
+
+        this.refresh();
+    }
+
+    private awardRound(winners:Team):void {
+        if (this.roundAwarded) return;
+
+        winners.addPoints(this.roundPoints);
+        this.roundAwarded = true;
     }
 
     private revealAnswer(num:number):void {
         if (num > this.currentRound.getNumAnswers()) return;
 
         this.roundPoints += this.currentRound.getAnswer(num - 1).total;
-        this.refresh();
 
         (<HTMLElement> document.querySelector(`#content .answer:nth-child(${num}) .number`)).style.display = "none";
         (<HTMLElement> document.querySelector(`#content .answer:nth-child(${num}) .result`)).style.display = "flex";
