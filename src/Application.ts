@@ -126,5 +126,7 @@ export default class Application {
         let strike = document.createElement("img");
         strike.setAttribute("src", "images/incorrect.png");
         strikeContainer.appendChild(strike);
+        
+        SoundManager.playWrongSound();
     }
 }
