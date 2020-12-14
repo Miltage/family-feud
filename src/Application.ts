@@ -1,3 +1,4 @@
+import { gsap } from "gsap";
 import Round from "./Round";
 import SoundManager from "./SoundManager";
 import Team from "./Team";
@@ -126,7 +127,21 @@ export default class Application {
         let strike = document.createElement("img");
         strike.setAttribute("src", "images/incorrect.png");
         strikeContainer.appendChild(strike);
-        
+
+        gsap.set(strikeContainer, { scale: 0, opacity: 1 });
+        gsap.to(strikeContainer, {
+            duration: 1,
+            scale: 1,
+            ease: "expo.out"
+        });
+        gsap.to(strikeContainer, {
+            delay: 4,
+            duration: 1,
+            scale: 0,
+            opacity: 0,
+            ease: "expo.out"
+        });
+
         SoundManager.playWrongSound();
     }
 }

@@ -20,6 +20,7 @@
   "homepage": "https://github.com/Miltage/family-feud#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "gsap": "^3.5.1",
     "howler": "^2.2.1"
   },
   "devDependencies": {
