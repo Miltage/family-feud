@@ -5,6 +5,7 @@ export default class Application {
 
     private rounds:Array<Round>;
     private currentRound:Round;
+    private currentRoundNum:number;
     private roundPoints:number;
     private roundAwarded:boolean;
 
@@ -24,7 +25,7 @@ export default class Application {
     }
 
     private init(data:any):void {
-        data.rounds.forEach((item: { question: any; }) => {
+        data.rounds.forEach((item: { question: any }) => {
             this.rounds.push(new Round(item));
         });
 
@@ -42,6 +43,7 @@ export default class Application {
     private loadRound(index:number):void {
         let round = this.rounds[index];
         this.currentRound = round;
+        this.currentRoundNum = index;
         this.roundPoints = 0;
         this.roundAwarded = false;
 
@@ -49,6 +51,8 @@ export default class Application {
 
         for (var i = 0; i < 8; i++) {
             let answer = round.getAnswer(i);
+
+            (<HTMLElement> document.querySelector(`#content .answer:nth-child(${i + 1})`)).classList.remove("reveal");
 
             if (answer) {
                 document.querySelector(`#content .answer:nth-child(${i + 1}) .text`).innerHTML = answer.text;
@@ -76,7 +80,20 @@ export default class Application {
         if (event.code === "KeyO") this.awardRound(this.team1);
         else if (event.code === "KeyP") this.awardRound(this.team2);
 
+        if (event.code === "ArrowRight") this.nextRound();
+        else if (event.code === "ArrowLeft") this.prevRound();
+
         this.refresh();
+    }
+
+    private nextRound():void {
+        this.loadRound(this.currentRoundNum + 1);
+    }
+
+    private prevRound():void {
+        if (this.currentRoundNum === 0) return;
+
+        this.loadRound(this.currentRoundNum - 1);
     }
 
     private awardRound(winners:Team):void {
@@ -91,8 +108,7 @@ export default class Application {
 
         this.roundPoints += this.currentRound.getAnswer(num - 1).total;
 
-        (<HTMLElement> document.querySelector(`#content .answer:nth-child(${num}) .number`)).style.display = "none";
-        (<HTMLElement> document.querySelector(`#content .answer:nth-child(${num}) .result`)).style.display = "flex";
+        (<HTMLElement> document.querySelector(`#content .answer:nth-child(${num})`)).classList.add("reveal");
     }
 
     private numberToString(num:number):string {

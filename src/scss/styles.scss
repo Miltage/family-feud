@@ -77,6 +77,15 @@ body {
                 }
             }
 
+            &.reveal {
+                .number {
+                    display: none;
+                }
+                .inner .result {
+                    display: flex;
+                }
+            }
+
             .inner {
                 border: 2px solid whitesmoke;
                 box-sizing: border-box;

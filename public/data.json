@@ -24,6 +24,23 @@
                     "total": 8
                 }
             ]
+        },
+        {
+            "question": "Example Question 2",
+            "answers": [
+                {
+                    "text": "Answer 1",
+                    "total": 58
+                },
+                {
+                    "text": "Answer 2",
+                    "total": 30
+                },
+                {
+                    "text": "Answer 3",
+                    "total": 14
+                }
+            ]
         }
     ]
 }
