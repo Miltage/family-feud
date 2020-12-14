@@ -80,6 +80,7 @@ export default class Application {
 
         if (event.code === "KeyO") this.awardRound(this.team1);
         else if (event.code === "KeyP") this.awardRound(this.team2);
+        else if (event.code === "KeyX") this.showStrike();
 
         if (event.code === "ArrowRight") this.nextRound();
         else if (event.code === "ArrowLeft") this.prevRound();
@@ -118,5 +119,12 @@ export default class Application {
 
     private numberToString(num:number):string {
         return (num < 10 ? "0" : "") + num;
+    }
+
+    private showStrike():void {
+        let strikeContainer = document.querySelector(".strikes");
+        let strike = document.createElement("img");
+        strike.setAttribute("src", "images/incorrect.png");
+        strikeContainer.appendChild(strike);
     }
 }
