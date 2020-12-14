@@ -1,4 +1,5 @@
 import Round from "./Round";
+import SoundManager from "./SoundManager";
 import Team from "./Team";
 
 export default class Application {
@@ -110,6 +111,7 @@ export default class Application {
             return;
 
         this.roundPoints += this.currentRound.getAnswer(num - 1).total;
+        SoundManager.playCorrectSound();
 
         (<HTMLElement> document.querySelector(`#content .answer:nth-child(${num})`)).classList.add("reveal");
     }
