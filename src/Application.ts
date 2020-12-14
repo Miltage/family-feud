@@ -106,6 +106,9 @@ export default class Application {
     private revealAnswer(num:number):void {
         if (num > this.currentRound.getNumAnswers()) return;
 
+        if ((<HTMLElement> document.querySelector(`#content .answer:nth-child(${num})`)).classList.contains("reveal"))
+            return;
+
         this.roundPoints += this.currentRound.getAnswer(num - 1).total;
 
         (<HTMLElement> document.querySelector(`#content .answer:nth-child(${num})`)).classList.add("reveal");
