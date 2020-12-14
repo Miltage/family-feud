@@ -122,19 +122,28 @@ export default class Application {
         return (num < 10 ? "0" : "") + num;
     }
 
+    private strikeTween:any;
     private showStrike():void {
         let strikeContainer = document.querySelector(".strikes");
+
+        if (strikeContainer.children.length === 3)
+            strikeContainer.innerHTML = "";
+        
+        if (this.strikeTween) this.strikeTween.kill();
+
         let strike = document.createElement("img");
         strike.setAttribute("src", "images/incorrect.png");
         strikeContainer.appendChild(strike);
 
+        this.strikeTween = gsap.timeline();
+
         gsap.set(strikeContainer, { scale: 0, opacity: 1 });
-        gsap.to(strikeContainer, {
+        this.strikeTween.to(strikeContainer, {
             duration: 1,
             scale: 1,
             ease: "expo.out"
-        });
-        gsap.to(strikeContainer, {
+        })
+        .to(strikeContainer, {
             delay: 4,
             duration: 1,
             scale: 0,
