@@ -21,6 +21,8 @@ export default class Application {
 
         this.team1 = new Team();
         this.team2 = new Team();
+        this.team1.name = "team1";
+        this.team2.name = "team2";
 
         fetch('data.json')
         .then(res => res.json())
@@ -124,10 +126,23 @@ export default class Application {
     }
 
     private awardRound(winners:Team):void {
-        if (this.roundAwarded) return;
+        if (this.roundAwarded || this.roundPoints == 0) return;
 
         winners.addPoints(this.roundPoints);
         this.roundAwarded = true;
+        SoundManager.playPingSound();
+
+        gsap.set("#" + winners.name, { scale: 1 });
+        gsap.timeline().to("#" + winners.name, {
+            duration: 0.3,
+            scale: 1.4,
+            ease: "expo.out"
+        })
+        .to("#" + winners.name, {
+            duration: 0.3,
+            scale: 1,
+            ease: "expo.out"
+        });
     }
 
     private revealAnswer(num:number):void {
@@ -138,6 +153,18 @@ export default class Application {
 
         this.roundPoints += this.currentRound.getAnswer(num - 1).total;
         SoundManager.playCorrectSound();
+
+        gsap.set(".points", { scale: 1 });
+        gsap.timeline().to(".points", {
+            duration: 0.3,
+            scale: 1.4,
+            ease: "expo.out"
+        })
+        .to(".points", {
+            duration: 0.3,
+            scale: 1,
+            ease: "expo.out"
+        });
 
         (<HTMLElement> document.querySelector(`#content .answer:nth-child(${num})`)).classList.add("reveal");
     }

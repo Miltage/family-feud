@@ -1,5 +1,7 @@
 export default class Team {
 
+    public name:string;
+
     private score:number;
 
     constructor() {
