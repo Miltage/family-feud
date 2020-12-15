@@ -5,6 +5,8 @@ import Team from "./Team";
 
 export default class Application {
 
+    public transitionSpeed:number = 0.6;
+
     private rounds:Array<Round>;
     private currentRound:Round;
     private currentRoundNum:number;
@@ -65,6 +67,10 @@ export default class Application {
                 document.querySelector(`#content .answer:nth-child(${i + 1})`).classList.add("hidden");
             }
         }
+
+        this.refresh();
+        gsap.set(".strikes", { scale: 0, opacity: 1 });
+        document.querySelector(".strikes").innerHTML = "";
     }
 
     private onKeyUp(event:KeyboardEvent):void {
@@ -89,14 +95,32 @@ export default class Application {
         this.refresh();
     }
 
+    private transition(cb:() => void):void {
+        gsap.to("#wrapper", {
+            duration: this.transitionSpeed,
+            opacity: 0,
+            scale: 0.9,
+            ease: "expo.out",
+            onComplete: () => {
+                cb();
+                gsap.to("#wrapper", {
+                    duration: this.transitionSpeed,
+                    opacity: 1,
+                    scale: 1,
+                    ease: "expo.out"
+                });
+            }
+        });
+    }
+
     private nextRound():void {
-        this.loadRound(this.currentRoundNum + 1);
+        this.transition(() => this.loadRound(this.currentRoundNum + 1));
     }
 
     private prevRound():void {
         if (this.currentRoundNum === 0) return;
 
-        this.loadRound(this.currentRoundNum - 1);
+        this.transition(() => this.loadRound(this.currentRoundNum - 1));
     }
 
     private awardRound(winners:Team):void {
@@ -139,12 +163,12 @@ export default class Application {
 
         gsap.set(strikeContainer, { scale: 0, opacity: 1 });
         this.strikeTween.to(strikeContainer, {
-            duration: 1,
+            duration: 0.6,
             scale: 1,
             ease: "expo.out"
         })
         .to(strikeContainer, {
-            delay: 4,
+            delay: 2,
             duration: 1,
             scale: 0,
             opacity: 0,
