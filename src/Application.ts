@@ -38,6 +38,24 @@ export default class Application {
         this.loadRound(0);
 
         document.addEventListener("keyup", (event) => this.onKeyUp(event));
+
+        gsap.set("#title img", { scale: 0 });
+        gsap.to("#title img", {
+            duration: 10,
+            scale: 1,
+            ease: "elastic",
+            onComplete: () => {
+                gsap.to("#title img", {
+                    duration: 3,
+                    scale: 1.2,
+                    repeat: 100,
+                    yoyo: true,
+                    ease: "power3.inOut"
+                });
+            }
+        });
+
+        SoundManager.playTheme();
     }
 
     private refresh():void {
