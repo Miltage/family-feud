@@ -31,7 +31,7 @@ export default class SoundManager {
     }
 
     public static stopTheme():void {
-        this.themeMusic.fade(1.0, 0.0, 4.0);
+        this.themeMusic.fade(1, 0, 4000);
     }
 
     public static playCorrectSound():void {

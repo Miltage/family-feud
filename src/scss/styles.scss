@@ -13,7 +13,7 @@
 body {
     display: flex;
     height: 100vh;
-    background-color: #143EA8;
+    background-color: #3C5FBA;
     margin: 0;
     padding: 0;
     font-family: 'Roboto', Arial, Helvetica, sans-serif;
@@ -38,6 +38,7 @@ body {
     display: none;
     grid-template-rows: 30% 1fr;
     height: calc(100vh - 40px);
+    width: 100%;
 
     #header {
         color: white;

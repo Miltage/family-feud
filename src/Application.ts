@@ -12,6 +12,7 @@ export default class Application {
     private currentRoundNum:number;
     private roundPoints:number;
     private roundAwarded:boolean;
+    private started:boolean;
 
     private team1:Team;
     private team2:Team;
@@ -23,6 +24,7 @@ export default class Application {
         this.team2 = new Team();
         this.team1.name = "team1";
         this.team2.name = "team2";
+        this.started = false;
 
         fetch('data.json')
         .then(res => res.json())
@@ -35,7 +37,7 @@ export default class Application {
             this.rounds.push(new Round(item));
         });
 
-        this.loadRound(0);
+        this.currentRoundNum = -1;
 
         document.addEventListener("keyup", (event) => this.onKeyUp(event));
 
@@ -116,6 +118,21 @@ export default class Application {
     }
 
     private transition(cb:() => void):void {
+        if (!this.started) {
+            gsap.to("#title", {
+                duration: this.transitionSpeed * 2,
+                opacity: 0,
+                ease: "expo.out",
+                onComplete: () => {
+                    document.getElementById("title").style.display = "none";
+                    this.transition(cb);
+                }
+            });
+            SoundManager.stopTheme();
+            this.started = true;
+            return;
+        }
+
         gsap.to("#wrapper", {
             duration: this.transitionSpeed,
             opacity: 0,
@@ -123,6 +140,7 @@ export default class Application {
             ease: "expo.out",
             onComplete: () => {
                 cb();
+                document.getElementById("wrapper").style.display = "grid";
                 gsap.to("#wrapper", {
                     duration: this.transitionSpeed,
                     opacity: 1,
