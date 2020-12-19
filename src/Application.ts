@@ -14,6 +14,7 @@ export default class Application {
     private roundPoints:number;
     private roundAwarded:boolean;
     private started:boolean;
+    private ended:boolean;
 
     private team1:Team;
     private team2:Team;
@@ -26,6 +27,7 @@ export default class Application {
         this.team1.name = "team1";
         this.team2.name = "team2";
         this.started = false;
+        this.ended = false;
 
         fetch('data.json')
         .then(res => res.json())
@@ -59,8 +61,6 @@ export default class Application {
         });
 
         SoundManager.playTheme();
-
-        this.showEnd();
     }
 
     private refresh():void {
@@ -137,6 +137,26 @@ export default class Application {
             this.started = true;
             return;
         }
+        else if (this.ended) {
+            gsap.to("#wrapper", {
+                duration: this.transitionSpeed,
+                opacity: 0,
+                scale: 0.9,
+                ease: "expo.out",
+                onComplete: () => {
+                    this.showEnd();
+                    document.getElementById("end").style.display = "flex";
+                    document.getElementById("wrapper").style.display = "none";
+                    gsap.to("#end", {
+                        duration: this.transitionSpeed,
+                        opacity: 1,
+                        scale: 1,
+                        ease: "expo.out"
+                    });
+                }
+            });
+            return;
+        }
 
         gsap.to("#wrapper", {
             duration: this.transitionSpeed,
@@ -145,6 +165,7 @@ export default class Application {
             ease: "expo.out",
             onComplete: () => {
                 cb();
+                SoundManager.playChimeSound();
                 document.getElementById("wrapper").style.display = "grid";
                 gsap.to("#wrapper", {
                     duration: this.transitionSpeed,
@@ -157,6 +178,8 @@ export default class Application {
     }
 
     private nextRound():void {
+        if (this.currentRoundNum + 1 >= this.rounds.length)
+            this.ended = true;
         this.transition(() => this.loadRound(this.currentRoundNum + 1));
     }
 
@@ -167,7 +190,15 @@ export default class Application {
     }
 
     private showEnd():void {
+        let winningScore = 0;
+
+        if (this.team1.getScore() > this.team2.getScore())
+            winningScore = this.team1.getScore();
+        else
+            winningScore = this.team2.getScore();
+
         document.getElementById("end").style.display = "flex";
+        document.querySelector("#end span.score").innerHTML = "" + winningScore;
         gsap.set("#end", { opacity: 0 });
         gsap.to("#end", {
             opacity: 1,
@@ -191,6 +222,8 @@ export default class Application {
         });
 
         Confetti.startConfetti();
+        SoundManager.playTheme();
+        SoundManager.playApplauseSound();
     }
 
     private awardRound(winners:Team):void {

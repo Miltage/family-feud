@@ -30,6 +30,7 @@ body {
     text-shadow: rgba(0, 0, 0, 0.7) 2px 2px 8px;
     text-transform: uppercase;
     flex-direction: column;
+    opacity: 0;
 
     .score {
         margin-bottom: 20px;
@@ -38,7 +39,7 @@ body {
 }
 
 #title {
-    display: none;//flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     width: 100vw;

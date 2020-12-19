@@ -6,6 +6,8 @@ export default class SoundManager {
     private static wrongSound:Howl;
     private static pingSound:Howl;
     private static themeMusic:Howl;
+    private static applauseSound:Howl;
+    private static chimeSound:Howl;
     private static crowdSounds:Array<Howl>;
     private static lastCrowdSound:number;
 
@@ -33,10 +35,20 @@ export default class SoundManager {
                 src: ['sounds/crowd' + i + '.wav']
             }));
         }
+
+        this.applauseSound = new Howl({
+            src: ['sounds/applause.wav']
+        });
+
+        this.chimeSound = new Howl({
+            src: ['sounds/chime.wav']
+        });
     }
 
     public static playTheme():void {
+        this.themeMusic.stop();
         this.themeMusic.play();
+        this.themeMusic.fade(0, 1, 2000);
     }
 
     public static stopTheme():void {
@@ -60,5 +72,14 @@ export default class SoundManager {
         while (this.lastCrowdSound && index === this.lastCrowdSound)
             index = Math.floor(Math.random() * this.crowdSounds.length);
         this.crowdSounds[index].play();
+    }
+
+    public static playApplauseSound():void {
+        this.applauseSound.play();
+        this.applauseSound.fade(0, 0.4, 2000);
+    }
+
+    public static playChimeSound():void {
+        this.chimeSound.play();
     }
 }
