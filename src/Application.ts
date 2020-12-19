@@ -114,6 +114,8 @@ export default class Application {
         if (event.code === "ArrowRight") this.nextRound();
         else if (event.code === "ArrowLeft") this.prevRound();
 
+        if (event.code === "KeyC") SoundManager.playCrowdSound();
+
         this.refresh();
     }
 

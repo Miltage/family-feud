@@ -6,6 +6,8 @@ export default class SoundManager {
     private static wrongSound:Howl;
     private static pingSound:Howl;
     private static themeMusic:Howl;
+    private static crowdSounds:Array<Howl>;
+    private static lastCrowdSound:number;
 
     public static init():void {
         this.correctSound = new Howl({
@@ -24,6 +26,13 @@ export default class SoundManager {
         this.themeMusic = new Howl({
             src: ['sounds/theme.mp3']
         });
+
+        this.crowdSounds = [];
+        for (var i = 1; i <= 7; i++) {
+            this.crowdSounds.push(new Howl({
+                src: ['sounds/crowd' + i + '.wav']
+            }));
+        }
     }
 
     public static playTheme():void {
@@ -44,5 +53,12 @@ export default class SoundManager {
 
     public static playPingSound():void {
         this.pingSound.play();
+    }
+
+    public static playCrowdSound():void {
+        let index = Math.floor(Math.random() * this.crowdSounds.length);
+        while (this.lastCrowdSound && index === this.lastCrowdSound)
+            index = Math.floor(Math.random() * this.crowdSounds.length);
+        this.crowdSounds[index].play();
     }
 }
