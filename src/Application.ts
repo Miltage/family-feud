@@ -1,4 +1,5 @@
 import { gsap } from "gsap";
+import Confetti from "./Confetti";
 import Round from "./Round";
 import SoundManager from "./SoundManager";
 import Team from "./Team";
@@ -58,6 +59,8 @@ export default class Application {
         });
 
         SoundManager.playTheme();
+
+        this.showEnd();
     }
 
     private refresh():void {
@@ -161,6 +164,33 @@ export default class Application {
         if (this.currentRoundNum === 0) return;
 
         this.transition(() => this.loadRound(this.currentRoundNum - 1));
+    }
+
+    private showEnd():void {
+        document.getElementById("end").style.display = "flex";
+        gsap.set("#end", { opacity: 0 });
+        gsap.to("#end", {
+            opacity: 1,
+            duration: 1
+        });
+
+        gsap.to("#end span.score", {
+            duration: 0.6,
+            scale: 1.2,
+            repeat: 100,
+            yoyo: true,
+            ease: "power3.inOut"
+        });
+
+        gsap.fromTo("#end span.score", { rotation: -10 }, {
+            duration: 1.2,
+            rotation: 10,
+            repeat: 100,
+            yoyo: true,
+            ease: "expo.inOut"
+        });
+
+        Confetti.startConfetti();
     }
 
     private awardRound(winners:Team):void {

@@ -20,8 +20,25 @@ body {
     overflow: hidden;
 }
 
+#end {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    color: white;
+    text-shadow: rgba(0, 0, 0, 0.7) 2px 2px 8px;
+    text-transform: uppercase;
+    flex-direction: column;
+
+    .score {
+        margin-bottom: 20px;
+        font-size: 140px;
+    }
+}
+
 #title {
-    display: flex;
+    display: none;//flex;
     align-items: center;
     justify-content: center;
     width: 100vw;
